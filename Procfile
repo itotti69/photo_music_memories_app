@@ -1,1 +1,1 @@
-web: gunicorn myproject.wsgi
+echo web: gunicorn pmapp.wsgi --log-file - > Procfile
