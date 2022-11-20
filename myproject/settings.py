@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 プロジェクト全体に関わる設定をするファイル
 """
 
-from pathlib import Path
+# from pathlib import Path
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = TrueだとDjango標準のエラーページが表示される
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -143,26 +143,41 @@ LOGIN_REDIRECT_URL = 'pmapp:index'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-#Herokeデプロイ
-import dj_database_url
-#データベースの設定を上書き
-DATABASES['default'] = dj_database_url.config()
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDED_PROTO', 'https')
-
-# 本番環境では実際のドメインを入れる
-ALLOWED_HOSTS = ['*']
-
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 DEBUG = False
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+#Herokeデプロイ
+# import dj_database_url
+# #データベースの設定を上書き
+# DATABASES['default'] = dj_database_url.config()
 
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDED_PROTO', 'https')
+
+# # 本番環境では実際のドメインを入れる
+# ALLOWED_HOSTS = ['*']
+
+
+
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     pass
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=600,
+ssl_require=True)
+DATABASES['default'].update(db_from_env)
+try:
+ from .local_settings import *
+except ImportError:
+ pass
 if not DEBUG:
-    SECRET_KEY = os.environ('SECRET_KEY')
+    SECRET_KEY = 'django-insecure-)ez42jr6ux97)kg5s$^8kq-(p^sbay!u)or*akawt^+s$)-_o('
+
+import django_heroku
+django_heroku.settings(locals())
