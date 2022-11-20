@@ -1,0 +1,76 @@
+{% extends 'pmapp/base.html' %}
+{% block content %}
+<div class="jumbotron-fluid">
+    <div class="container">
+        <h2 class="display-4">{{ request.site.siteconfig.top_title }}</h2>
+        <p class="lead">{{ request.site.siteconfig.top_subtitle }}</p>
+    </div>
+</div>
+
+<!-- gridを使うときは必ず書く。 -->
+<div class="row">
+    <!-- Card　Gallery -->
+    <div class="card-deck">
+        <!-- post_listの内容を繰り返し表示 -->
+        <!-- post_listはviews.pyで定義している -->
+        {% for item in post_list %}
+        <!-- 横幅全体12カラムのうち１列でどれだけ使うか -->
+        <!-- 合計１２になるようにしないといけない -->
+        <!-- 3列で改行せたい場合md-4とかく。 -->
+        <div class="col-md-4">
+
+            <!-- Card -->
+            <div class="card mb-4">
+
+                <!-- Card image -->
+                <div class="view overlay">
+                    {% if item.thumbnail %}
+                    <img class="card-img-top" src="{{ item.thumbnail.url }}" alt="{{ item.title }}">
+                    {% else %}
+                    <img class="card-img-top" src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp"
+                        alt="{{ item.title }}" />
+                    {% endif %}
+                    <a href="{% url 'pmapp:post_detail' item.id %}">
+                        <div class="mask rgba-white-slight"></div>
+                    </a>
+                </div>
+
+                <!-- Card content -->
+                <div class="card-body">
+
+                    <!-- Title -->
+                    <!-- .の後の記述はmodels.pyから確認可能 -->
+                    <h5 class="card-title">{{ item.title }}<small>{{ item.author }}</small></h5>
+                    <p>{{ item.category }}</p>
+                    <!-- Text -->
+                    <!-- 組み込みタグ  safe: 投稿のHTMLタグを反映させる。　/
+                    trunscatechars_html: 指定した文字数だけ表示する。 -->
+                    <p class="card-text">{{ item.content | safe | truncatechars_html:30 }}</p>
+                    <a href="{% url 'pmapp:post_detail' item.id %}" type="button"
+                        class="btn btn-light-blue btn-md">もっと読む</a>
+                    <!-- これは取れてきてる -->
+                    <!-- エラー発生 -->
+                    <!-- NoReverseMatch at /post_detail/2
+Reverse for 'post_detail' with arguments '('',)' not found.
+1 pattern(s) tried: ['post_detail/(?P<pk>[0-9]+)\\Z'] -->
+                    <!-- <p class="card-text">{{ item.id }}</p> -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container mt-5">
+    <button type="button" class="btn btn-primary">Primary</button>
+    <button type="button" class="btn btn-secondary">Secondary</button>
+    <button type="button" class="btn btn-success">Success</button>
+    <button type="button" class="btn btn-danger">Danger</button>
+    <button type="button" class="btn btn-warning">Warning</button>
+    <button type="button" class="btn btn-info">Info</button>
+    <button type="button" class="btn btn-light">Light</button>
+    <button type="button" class="btn btn-dark">Dark</button>
+    <button type="button" class="btn btn-link">Link</button>
+</div>
+
+{% endblock %}

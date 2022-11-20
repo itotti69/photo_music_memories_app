@@ -1,0 +1,31 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <br>
+        <h2>Login</h2>
+        <br>
+
+        <!-- formのcssを適用させたい場合はform.pyで設定する必要がある。 -->
+        <form action="" method="post">
+            <!-- これがないとDjangoではエラー -->
+            <!-- セキュリティ上の安全を確保するために必要 -->
+            {% csrf_token %}
+            <!-- formの中でfieldに関わらない場合エラーを表示する -->
+            <!-- ログイン名が違ったり、パスワードが違ったりした場合の共通処理 -->
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            {{ field.label }}
+            <!-- fieldはログインネームやパスワード -->
+            {{ field }}
+            <!-- fieldに関するエラー -->
+            {{ field.errors }}
+            <br>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

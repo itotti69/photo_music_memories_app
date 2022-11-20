@@ -1,0 +1,37 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <br>
+        <h2>Category List</h2>
+        <br>
+    </div>
+</div>
+<div class="row">
+
+    {% for category in category_list %}
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a
+                        href="{% url 'pmapp:category_detail' category.name_en %}">{{ category.name }}</a>&nbsp;<small>[&nbsp;{{ category.post_count }}&nbsp;]</small>
+                </h4>
+                <hr>
+                <!-- __setはDjangoが用意しているもの -->
+                <!-- 組み込みタグ: 投稿は２件まで表示 slice:":5" -->
+                {% for post in category.post_set.all|slice:":5" %}
+                <p><a href="{% url 'pmapp:post_detail' post.id %}" style="color:black;">{{ post.title }}</a></p>
+                {% endfor %}
+                <br>
+                <a href="{% url 'pmapp:category_detail' category.name_en %}">このカテゴリーの記事を全て見る</a>
+            </div>
+        </div>
+        <br>
+    </div>
+    {% endfor %}
+</div>
+<br>
+
+{% endblock %}

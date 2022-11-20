@@ -1,0 +1,76 @@
+{% extends 'pmapp/base.html' %}
+{% block content %}
+
+<!-- このページの描画がおかしい -->
+<!-- 全部消してh1タグでaaaaとすると描画される -->
+
+<!-- 詳細ページ -->
+<div class="row">
+    <div class="col-md-9">
+        <br>
+        <br>
+        <div class="card">
+            {% if object.thumbnail %}
+
+            <img src="{{ object.thumbnail.url }}" class="card-img-top" alt="{{ object.title }}" />
+            {% else %}
+            <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top"
+                alt="{{ object.title }}" />
+            {% endif %}
+            <!-- ここのobject.idの値がitem.idになっていたため、
+            NoReverseMatch at /post_detail/14
+            Reverse for 'post_detail' with arguments '('',)' not found.
+            1 pattern(s) tried: ['post_detail/(?P<pk>[0-9]+)\\Z']
+            エラーになってしまっていた。-->
+            <a href="{% url 'pmapp:post_detail' object.id %}">
+                <div class="mask rgba-whileslight"></div>
+            </a>
+            <div class="card-body">
+                <!-- Title -->
+                <!-- HTML内でデータベースからの値を表示する -->
+                <!-- DetailViewの場合は、個別の値はobjectという変数に入ってHTMLに渡される -->
+                <h5 class="card-title"><a>{{ object.title }}</a></h5>
+                <!-- 組み込みタグ　　linebraksbr: 改行を反映させる -->
+                <!-- 組み込みタグ　　urlize: テキスト内のURLとEmailアドレスをクリック可能なURLに変換する。 -->
+                <p class="card-text">{{ object.content | safe | linebreaksbr | urlize }}</p>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/26cbq29o0KI"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <br>
+                <!-- お気に入り追加ボタン post.pkは、postのidを示す -->
+                <a class="btn" href="{% url 'pmapp:like_add' object.pk %}"
+                    style="background-color: #ff6699; color: white;">お気に入りに入れる</a>
+                <hr>
+                <!-- 戻るボタン 履歴を参照して一個前に戻ることができる　-->
+                <a href="javascript:void(0);" onclick="window.history.back();" class="btn btn-outline-dark">戻る</a>
+                {% if object.author == request.user %}
+                <!-- 更新ボタン -->
+                <a href="{% url 'pmapp:post_update' object.pk %}" class="btn btn-primary">更新</a>
+                <!-- 削除ボタン -->
+                <a href="{% url 'pmapp:post_delete' object.pk %}" class="btn btn-danger">削除</a>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <!-- Postのカテゴリ名　<objectは今のPost> -->
+                <h5 class="card-title">{{ object.category }}</h5>
+                <p>このカテゴリの他の記事</p>
+            </div>
+            <ul class="list-group">
+                {% for item in category_posts %}
+                <li class="list-group-item"><a href="{% url 'pmapp:post_detail' object.id %}">
+                        {{ item.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
