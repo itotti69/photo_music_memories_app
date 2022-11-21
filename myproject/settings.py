@@ -27,6 +27,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ALLOWED_HOSTS = ['*']
 
+DEBUG = True
+
 
 # Application definition
 
@@ -47,6 +49,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,7 +87,7 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -126,6 +129,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+SECRET_KEY = ''
+
+import django_on_heroku
+
+django_on_heroku.settings(locals())
+
+path = 'venv'
+
+if not os.path.isdir(path):
+    DEBUG = False
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -140,44 +153,28 @@ LOGIN_REDIRECT_URL = 'pmapp:index'
 # 画像や動画のファイルを置く場所を指定
 # BASE_DIR = Path(__file__).resolve().parent.parent  MYPROJECTの直下
 # BASE_DIRの中のmediaフォルダ
-MEDIA_ROOT = BASE_DIR / 'media'
+# 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-
-DEBUG = False
-
-#Herokeデプロイ
 # import dj_database_url
-# #データベースの設定を上書き
 # DATABASES['default'] = dj_database_url.config()
 
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDED_PROTO', 'https')
 
-# # 本番環境では実際のドメインを入れる
 # ALLOWED_HOSTS = ['*']
 
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATIC_URL = '/static/'
 
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# DEBUG = False
 
 # try:
 #     from .local_settings import *
 # except ImportError:
 #     pass
-import dj_database_url
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
-db_from_env = dj_database_url.config(conn_max_age=600,
-ssl_require=True)
-DATABASES['default'].update(db_from_env)
-try:
- from .local_settings import *
-except ImportError:
- pass
-if not DEBUG:
-    SECRET_KEY = 'django-insecure-)ez42jr6ux97)kg5s$^8kq-(p^sbay!u)or*akawt^+s$)-_o('
 
-import django_heroku
-django_heroku.settings(locals())
+# if not DEBUG:
+#     SECRET_KEY = os.environ('SECRET_KEY')

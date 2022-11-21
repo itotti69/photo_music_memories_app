@@ -1,5 +1,4 @@
-__pycache__
-staticfiles
-local_settings.py
+venv
+*.pyc
 db.sqlite3
-*.py[co]
+staticfiles
