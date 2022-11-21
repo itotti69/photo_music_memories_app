@@ -2,3 +2,4 @@ django
 django-on-heroku
 gunicorn
 Pillow
+dyno
