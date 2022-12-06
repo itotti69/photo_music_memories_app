@@ -1,0 +1,28 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="jumbotron-fluid mb-4">
+        <div class="container pt-5">
+            <p class="lead">Calendar</p>
+            <h2 class="display-4">カレンダー</h2>
+        </div>
+    </div>
+    <div class="row border border-success rounded p-3 mb-5">
+        <div class="col-md-12 mb-5">
+            <h6>weekly</h6>
+            <h3>週間</h3>
+            {% include 'pmapp/week.html' %}
+            <hr>
+        </div>
+    </div>
+    <div class="row border border-warning rounded p-3 mb-5">
+        <div class="col-md-12">
+            <h6>monthly</h6>
+            <h3>月間</h3>
+            {% include 'pmapp/month.html' %}
+        </div>
+    </div>
+    <a href="{% url 'pmapp:index' %}" class="btn btn-outline-dark">戻る</a>
+</div>
+{% endblock %}

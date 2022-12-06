@@ -1,0 +1,108 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="jumbotron-fluid m-5">
+    <div class="container mt-5 pt-5">
+        <p class="lead">MyPage</p>
+        <h2 class="display-4">マイページ</h2>
+        <h3>
+            <span class="badge badge-success pt-3 pb-3 pl-4 pr-4 mr-2">{{ request.user }}</span></h5>
+        </h3>
+
+    </div>
+
+</div>
+
+
+<div class="row container bg-image" style="background-image: url('media/images/haikei3.jpg'); height: 167vh;">
+    <div>
+        <h2 class="mt-5 ml-4 mr-4 text-white">自分の投稿</h2>
+    </div>
+    {% for item in post_list %}
+    {% if item.author == request.user%}
+    <div class="card-deck">
+        <div class="col-md-12">
+            <!-- Card -->
+            <div class="card mb-4">
+                <!-- Card image -->
+                <div class="view overlay zoom ripple">
+                    {% if item.thumbnail %}
+                    <img class="card-img-top" height="280" src="{{ item.thumbnail.url }}" alt="{{ item.title }}">
+                    {% else %}
+                    <img class="card-img-top" height="180" src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp"
+                        alt="{{ item.title }}" />
+                    {% endif %}
+                    <a href="{% url 'pmapp:post_detail' item.id %}">
+                        <div class="mask flex-center d-flex align-items-end mb-5 rgba-white-light">
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Card content -->
+                <div class="card-body">
+                    <!-- Title -->
+                    <h2>{{ item.title }}</h2>
+                    <div class="card-text d-flex flex-row">
+                        <h2 class="badge rounded-pill bg-success ml-3 mt-1 mb-2 display-3"
+                            style="--mdb-text-opacity: .7;">{{ item.author }}</h2>
+                        <span class=" badge rounded-pill bg-info ml-3 mt-1 mb-2" style="--mdb-text-opacity: .7;">
+                            {{ item.category }}
+                        </span>
+                        <span class=" badge rounded-pill bg-danger ml-3 mt-1 mb-2" style="--mdb-text-opacity: .7;">
+                            {{ item.tag }}
+                        </span>
+                        <i class="fas fa-heart ml-4" style="color:pink;"></i>&nbsp{{ item.like_count }}
+                    </div>
+                    <a href="{% url 'pmapp:post_detail' item.id %}" type="button"
+                        class="btn btn-light-blue btn-md">もっと読む</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <table class="table">
+        <tr>
+            <td>
+                <div class="d-flex flex-row">
+                    <h3><a class="nav-link text-white" href="{% url 'pmapp:post_create' %}">新規投稿 ＞</a></h3>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="d-flex flex-row">
+                    <h3><a class="nav-link text-white" href="{% url 'pmapp:like_list' %}">お気に入り一覧 ＞</a></h3>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="d-flex flex-row">
+                    <h3><a class="nav-link text-white" href="/admin" target="_blank">設定 ＞</a></h3>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {% if request.user.is_authenticated %}
+                <div class="d-flex flex-row">
+                    <h3>
+                        <a class="text-danger font-weight-bold" href="{% url 'pmapp:logout' %}">ログアウト</a>
+                    </h3>
+                    {% else %}
+                    <h3>
+                        <a class="text-info" href="{% url 'pmapp:login' %}">ログイン</a>
+                    </h3>
+                    <h4>
+                        <a class="text-warning" href="{% url 'pmapp:signup' %}">ユーザー登録</a>
+                    </h4>
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <a href="{% url 'pmapp:index' %}" class="btn btn-outline-dark mb-5">戻る</a>
+    {% endblock %}

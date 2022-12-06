@@ -1,0 +1,29 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="jumbotron-fluid m-5">
+    <div class="container mt-5 pt-5">
+        <p class="lead">Search</p>
+        <h2 class="display-4">検索</h2>
+        <h4>記事タイトル・内容/曲名/アーティスト名を入れて検索できます！</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <br>
+        <form action="{% url 'pmapp:search' %}" class="form-inline" method="POST">
+            {% csrf_token %}
+            <div class="input-group ml-5">
+                <div class="form-outline mt-3">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" ,
+                        name="freeword">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<a href="{% url 'pmapp:index' %}" class="btn btn-outline-dark mt-5 mb-5">戻る</a>
+{% endblock %}

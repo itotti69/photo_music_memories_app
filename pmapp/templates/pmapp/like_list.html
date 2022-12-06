@@ -1,0 +1,39 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <div class="jumbotron-fluid m-5">
+            <div class="container">
+                <p class="lead">Like List</p>
+                <h2 class="display-4">お気に入り一覧</h2>
+            </div>
+        </div>
+        <h3>
+            <span class="badge badge-success pt-3 pb-3 pl-4 pr-4 mr-2">{{ request.user }}</span></h3>
+        </h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="200px">
+                        <h4 class="font-weight-bold">タイトル</h4>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- ListViewの場合は、モデル名_listで、そのクラスで指定したリストが渡される。 -->
+                {% for item in like_list %}
+                <tr>
+                    <td><a href="{% url 'pmapp:post_detail' item.post_pk %}">{{ item.post }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        {% include 'pmapp/pagination.html' %}
+        <br>
+    </div>
+</div>
+<a href="{% url 'pmapp:mypage' %}" class="btn btn-outline-dark mb-5">戻る</a>
+{% endblock %}

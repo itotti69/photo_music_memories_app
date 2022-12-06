@@ -26,6 +26,8 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
@@ -33,78 +35,62 @@
   <head>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light text-white bg-info fixed-top">
       <!-- Container wrapper -->
       <div class="container-fluid">
-        <!-- Toggle button -->
-        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-          data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-          aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
-        </button>
-
         <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Navbar brand -->
-          <a class="navbar-brand mt-2 mt-lg-0" href="/">
-            My Blog
-          </a>
+        <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
           <!-- Left links -->
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="navbar-brand mt-2 mt-lg-0 text-white font-weight-bold" href="/">
+                Photo & Music <br> Memories
+              </a>
+            </li>
+            <li class="nav-item border border-white">
               <!-- pmapp:index  pmapp/urls.py の pathのname='index'が使われている。-->
-              <a class="nav-link" href="{% url 'pmapp:index' %}">Home</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/admin" target="_blank">管理画面へ</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="account" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">Account</a>
-              <div class="dropdown-menu dropdown-primary" aria-labelledby="account">
-                <!-- ユーザーが認証されている場合-->
-                {% if request.user.is_authenticated %}
-                <a class="dropdown-item">{{ request.user }}</a>
-                <a class="dropdown-item" href="{% url 'pmapp:logout' %}">ログアウト</a>
-                {% else %}
-                <a class="dropdown-item" href="{% url 'pmapp:login' %}">ログイン</a>
-                <a class="dropdown-item" href="{% url 'pmapp:signup' %}">ユーザー登録</a>
-                {% endif %}
-              </div>
+              <a class="nav-link link-light bg-white border border-info font-weight-bold"
+                href="{% url 'pmapp:index' %}">Home</a>
+              <i class="fas fa-home ml-3 pl-2"></i>
             </li>
 
-            <!-- Postドロップダウンメニュー -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">Post</a>
-              <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{% url 'pmapp:post_create' %}">新規投稿</a>
-                <a class="dropdown-item" href="{% url 'pmapp:post_list' %}">投稿一覧</a>
-              </div>
+            <!-- カレンダーページリンク -->
+            <li class="nav-item border border-white">
+              <a class="nav-link link-light bg-white border border-info font-weight-bold"
+                href="{% url 'pmapp:mycalendar' %}">カレンダー</a>
+              <i class="far fa-calendar ml-4 pl-3"></i>
             </li>
 
-            <!-- カテゴリードロップダウンメニュー -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">Category</a>
-              <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                {% for item in category_list %}
-                <a class="dropdown-item" href="{% url 'pmapp:category_detail' item.name_en %}">{{ item.name }}</a>
-                {% endfor %}
-                <hr>
-                <a class="dropdown-item" href="{% url 'pmapp:category_list' %}">カテゴリ一覧</a>
-              </div>
+            <!-- ライブラリページリンク -->
+            <li class="nav-item border border-white">
+              <a class="nav-link link-light bg-white border border-info font-weight-bold"
+                href="{% url 'pmapp:library' %}">ライブラリ</a>
+              <i class="far fa-images ml-4 pl-3"></i>
+              <!-- <a class="dropdown-item" href="{% url 'pmapp:like_list' %}">お気に入り一覧</a> -->
+            </li>
+            <!-- 検索ページリンク -->
+            <li class="nav-item border border-white">
+              <a class="nav-link link-light bg-white border border-info font-weight-bold"
+                href="{% url 'pmapp:search_form' %}">検索</a>
+              <i class="fas fa-search ml-3"></i>
+            </li>
+            <!-- マイページリンク -->
+            <li class="nav-item border border-white">
+              <a class="nav-link link-light bg-white border border-info font-weight-bold"
+                href="{% url 'pmapp:mypage' %}">マイページ</a>
+              <i class="fas fa-user ml-4 pl-3"></i>
             </li>
           </ul>
-          <!-- Left links -->
         </div>
-        <!-- Collapsible wrapper -->
+        <!-- Left links -->
+      </div>
+      <!-- Collapsible wrapper -->
 
-        <form action="{% url 'pmapp:search' %}" class="form-inline" method="POST">
+      <!-- <form action="{% url 'pmapp:search' %}" class="form-inline" method="POST">
           {% csrf_token %}
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" , name="freeword">
 
-        </form>
+        </form> -->
       </div>
       <!-- Container wrapper -->
     </nav>
@@ -112,19 +98,24 @@
 
   </head>
 
-  <main class="container">
+  <main class="container mt-5 pt-5">
 
     {% if messages %}
-    <br>
+    <ul class="messages_ul"></ul>
     {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}" role="alert">
+    <li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %} alert-dismissible" role="alert">
+      <!-- アラートは✖︎ボタンで閉じることができるよう設定 -->
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
       {{ message }}
-    </div>
+    </li>
     {% endfor %}
+    </ul>
     {% endif %}
 
     {% block content %}{% endblock %}
   </main>
+  {% block extrajs %}{% endblock %}
 </body>
 
 </html>

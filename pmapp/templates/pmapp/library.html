@@ -1,0 +1,66 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="jumbotron-fluid mb-5">
+    <div class="container pt-5">
+        <p class="lead">Library</p>
+        <h2 class="display-4">ライブラリ</h2>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <td>
+            <div class="d-flex flex-row">
+                <h3><a href="{% url 'pmapp:photo_list' %}"><i class="fas fa-image mr-3"></i>アルバム<i
+                            class="fas fa-angle-right pt-1 fa-sm ml-5 pl-5"></i></a></h3>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="d-flex flex-row">
+                <h3><a href="{% url 'pmapp:category_list' %}"><i class="far fa-list-alt mr-3"></i>カテゴリー<i
+                            class="fas fa-angle-right pt-1 fa-sm ml-5 pl-4"></i></a></h3>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="d-flex flex-row">
+                <h3><a href="{% url 'pmapp:music_list' %}"><i class="fas fa-music mr-3"></i>曲<i
+                            class="fas fa-angle-right pt-1 fa-sm ml-5 pl-4"></i></a>
+                </h3>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="d-flex flex-row">
+                <h3><a href="{% url 'pmapp:artist_list' %}"><i class="fas fa-guitar mr-3"></i>アーティスト<i
+                            class="fas fa-angle-right pt-1 fa-sm ml-4 pl-4"></i></a></h3>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="d-flex flex-row">
+                <h3><a href="{% url 'pmapp:category_list' %}"><i class="fas fa-compact-disc mr-3"></i>ジャンル<i
+                            class="fas fa-angle-right pt-1 fa-sm ml-5 pl-5"></i></a></h3>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="d-flex flex-row">
+                <h3><a href="{% url 'pmapp:music_list' %}"><i class="fab fa-youtube mr-3"></i>MV<i
+                            class="fas fa-angle-right pt-1 fa-sm ml-5 pl-4"></i></a></h3>
+
+            </div>
+            <hr class="hr" />
+        </td>
+
+    </tr>
+</table>
+<a href="{% url 'pmapp:index' %}" class="btn btn-outline-dark mb-5">戻る</a>
+{% endblock %}

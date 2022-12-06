@@ -1,35 +1,69 @@
 {% extends 'pmapp/base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-9">
-        <br>
-        <h2>Post一覧</h2>
-        <br>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>タイトル</th>
-                    <th>内容</th>
-                    <th>作成日時</th>
-                    <th>更新日時</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- ListViewの場合は、モデル名_listで、そのクラスで指定したリストが渡される。 -->
-                {% for item in search_list %}
-                <tr>
-                    <td><a href="{% url 'pmapp:post_detail' item.pk %}">{{ item.title }}</a></td>
-                    <td>{{ item.content }}</td>
-                    <td>{{ item.created_at }}</td>
-                    <td>{{ item.update_at }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <br>
+<div class="jumbotron-fluid mb-5">
+    <div class="container pt-5">
+        <p class="lead">Search Result</p>
+        <h2 class="display-4">検索結果</h2>
     </div>
 </div>
+<!-- gridを使うときは必ず書く。 -->
+<div class="row container mb-5">
+    <!-- Card　Gallery -->
+    <div class="card-deck">
+        <!-- post_listの内容を繰り返し表示 -->
+        <!-- post_listはviews.pyで定義している -->
+        {% for item in search_list %}
+        <!-- 横幅全体12カラムのうち１列でどれだけ使うか -->
+        <!-- 合計１２になるようにしないといけない -->
+        <!-- 3列で改行せたい場合md-4とかく。 -->
+        <div class="col-md-12 mt-5">
+            <!-- Card -->
+            <div class="card mb-4">
+                <!-- Card image -->
+                <div class="view overlay zoom ripple">
+                    {% if item.thumbnail %}
+                    <img class="card-img-top" height="280" src="{{ item.thumbnail.url }}" alt="{{ item.title }}">
+                    {% else %}
+                    <img class="card-img-top" height="180" src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp"
+                        alt="{{ item.title }}" />
+                    {% endif %}
+                    <a href="{% url 'pmapp:post_detail' item.id %}">
+                        <div class="mask flex-center d-flex align-items-end mb-5 rgba-white-light">
+                            <h5 class="text-dark bg-white-light">{{ item.music_phrase }}</h5>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Card content -->
+                <div class="card-body">
+                    <!-- Title -->
+                    <!-- .の後の記述はmodels.pyから確認可能 -->
+                    <h4 class="card-title">{{ item.title }}</h4>
+                    <hr class="hr" />
+                    <div class="card-text d-flex flex-row">
+                        <h5><span class="badge badge-success pt-2 mr-2">{{ item.author }}</span></h5>
+                        <h5><span class="badge badge-info pt-2 mr-2">{{ item.category }}</span></h5>
+                        <h5><span class="badge badge-danger pt-2 mr-2">{{ item.tag }}</span></h5>
+                        <h5><i class="fas fa-heart ml-4" style="color:pink;"></i>&nbsp{{ item.like_count }}</h5>
+                    </div>
+                    <!-- Postモデルのmusic_titleというフィールドには'music_title'という初期値が入っているためそれを除外して表示する -->
+                    {% if item.music_title != 'music_title' %}
+                    <h5 class="card-title mt-2"><i class="fas fa-compact-disc mr-1"></i>{{ item.music_title }}</h5>
+                    <hr class="hr" />
+                    {% else %}
+                    <h6 class="card-title"></h6>
+                    {% endif %}
+
+                    <p class="card-text">{{ item.content | safe | truncatechars_html:23 }}</p>
+                    <a href="{% url 'pmapp:post_detail' item.id %}" type="button"
+                        class="btn btn-light-blue btn-md">もっと読む</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<a href="{% url 'pmapp:search_form' %}" class="btn btn-outline-dark">戻る</a>
 
 {% endblock %}

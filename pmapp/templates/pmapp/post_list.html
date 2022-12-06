@@ -3,15 +3,20 @@
 {% block content %}
 <div class="row">
     <div class="col-md-9">
-        <br>
-        <h2>Post一覧</h2>
-        <br>
+        <div class="jumbotron-fluid mb-4">
+            <div class="container pt-5">
+                <p class="lead">Post List</p>
+                <h2 class="display-4">投稿一覧</h2>
+            </div>
+        </div>
 
         <table class="table">
             <thead>
                 <tr>
                     <th width="200px">タイトル</th>
                     <th>内容</th>
+                    <th>曲名</th>
+                    <th>アーティスト</th>
                     <th width="200px">作成日時<br>更新日時</th>
                 </tr>
             </thead>
@@ -21,6 +26,9 @@
                 <tr>
                     <td><a href="{% url 'pmapp:post_detail' item.pk %}">{{ item.title }}</a></td>
                     <td>{{ item.content | safe | truncatechars_html:30 }}</td>
+                    <td>{{ item.music_title }}</td>
+                    <td>{{ item.artist }}</td>
+                    <td><a>{ item.youtube_url }}</a>{</td>
                     <td>{{ item.created_at.date }}
                         <br>
                         {{ item.update_at.date }}</td>
@@ -32,6 +40,8 @@
         {% include 'pmapp/pagination.html' %}
         <br>
     </div>
+
 </div>
+<a href="{% url 'pmapp:index' %}" class="btn btn-outline-dark mb-5">戻る</a>
 
 {% endblock %}

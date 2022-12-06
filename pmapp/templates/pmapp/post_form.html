@@ -1,11 +1,14 @@
 {% extends 'pmapp/base.html' %}
 
 {% block content %}
-<div class="row">
+<div class="row m-5">
     <div class="col-md-9">
-        <br>
-        <h2>Post登録・更新</h2>
-        <br>
+        <div class="jumbotron-fluid m-5">
+            <div class="container mt-5 pt-5">
+                <p class="lead">Post Create & Post Update</p>
+                <h2 class="display-4">新規投稿・更新</h2>
+            </div>
+        </div>
 
         <!-- formのcssを適用させたい場合はform.pyで設定する必要がある。 -->
         <!-- enctype="multipart/form-data"　画像追加時に必ず必要になる -->
@@ -14,27 +17,71 @@
             <!-- セキュリティ上の安全を確保するために必要 -->
             {% csrf_token %}
             <div class="form-group">
-                <label>タイトル</label>
-                {{ form.title }}
-            </div>
-            <div class="form-group">
-                <label>カテゴリー</label>
+                <h4><label class="font-weight-bold">カテゴリー（*必須）</label></h4>
                 <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
                 {{ form.category }}
             </div>
             <div class="form-group">
-                <label>サムネイル画像</label>
+                <h4><label class="font-weight-bold">音楽ジャンル（*必須）</label></h4>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                {{ form.genre }}
+            </div>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">タグ（*必須）</label></h4>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                <a href="{% url 'pmapp:tag_create' %}">新規タグ作成</a>
+                {{ form.tag }}
+            </div>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">タイトル</label></h4>
+                {{ form.title }}
+            </div>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">サムネイル画像</label></h4>
                 <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
                 {{ form.thumbnail }}
             </div>
-            <br>
             <div class="form-group">
-                <label>内容</label>
-                {{ form.content }}
+                <h4><label class="font-weight-bold">スポット（写真を撮った場所を入力してください）</label></h4>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                {{ form.spot }}
+            </div>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">曲名</label></h4>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                {{ form.music_title }}
+            </div>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">アーティスト名</labelclass=font-weight-bold>
+                </h4>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                {{ form.artist }}
+            </div>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">歌詞ワンフレーズ</label></h4>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                {{ form.music_phrase }}
+            </div>
+
+            <h4 class="border border-primary">音楽ファイル or YouTubeのURL or 音楽を載せない　の中から選んでください。</h4>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">音楽ファイル</label></h4>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                {{ form.music }}
+            </div>
+            <div class="form-group">
+                <h4><label class="font-weight-bold">YouTube URL</label></h4>
+                <h6 class="border border-danger">YouTube 共有>リンクコピー>貼り付け（ペースト）</h6>
+                <a href='https://www.youtube.com/'">YouTubeからMVを探す</a><br>
+                <!-- 自動的にプルダウンでのセレクトボックスになる。 -->
+                <br>
+                {{ form.youtube_url }}
             </div>
             <br>
-            <h2>YouTubeの共有→埋め込み→埋め込みコード取得</h2>
-            <button onclick="location.href='https://www.youtube.com/' ">YouTubeからMVを探す</button><br>
+            <div class=" form-group">
+                    <h4><label class="font-weight-bold">内容</label></h4>
+                    {{ form.content }}
+            </div>
             <br>
             <button type="submit" class="btn btn-primary">保存</button>
         </form>

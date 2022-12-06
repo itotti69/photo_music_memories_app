@@ -1,0 +1,28 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <br>
+        <h2>Tag登録・更新</h2>
+        <br>
+
+        <!-- formのcssを適用させたい場合はform.pyで設定する必要がある。 -->
+        <!-- enctype="multipart/form-data"　画像追加時に必ず必要になる -->
+        <form action="" method="post">
+            <!-- これがないとDjangoではエラー -->
+            <!-- セキュリティ上の安全を確保するために必要 -->
+            {% csrf_token %}
+            <div class="form-group">
+                <h4><label>タグ</label>
+                    <h6>例）明るい、暗い、＜アーティスト名＞ etc...
+                    </h6>
+                </h4>
+                {{ form.name }}
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

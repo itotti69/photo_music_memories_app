@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cleanup.apps.CleanupConfig',  # django-cleanup
     'pmapp',
+    'comment',
+    'crispy_forms',
     'django.contrib.sites',
     'sitemanage',
 ]
@@ -129,16 +132,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-SECRET_KEY = ''
+# SECRET_KEY = ''
 
-import django_on_heroku
+# import django_on_heroku
 
-django_on_heroku.settings(locals())
+# django_on_heroku.settings(locals())
 
-path = 'venv'
+# path = 'venv'
 
-if not os.path.isdir(path):
-    DEBUG = False
+# if not os.path.isdir(path):
+#     DEBUG = False
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -150,31 +153,31 @@ LOGIN_URL = 'pmapp:login'
 # ログインした時に遷移するページ指定
 LOGIN_REDIRECT_URL = 'pmapp:index'
 
-# 画像や動画のファイルを置く場所を指定
+# 画像や動画、音声のファイルを置く場所を指定
 # BASE_DIR = Path(__file__).resolve().parent.parent  MYPROJECTの直下
 # BASE_DIRの中のmediaフォルダ
 # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# import dj_database_url
-# DATABASES['default'] = dj_database_url.config()
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
 
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDED_PROTO', 'https')
 
-# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']
 
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-# STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# DEBUG = False
+DEBUG = False
 
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     pass
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
-# if not DEBUG:
-#     SECRET_KEY = os.environ('SECRET_KEY')
+if not DEBUG:
+    SECRET_KEY = os.environ('SECRET_KEY')

@@ -1,0 +1,49 @@
+{% extends 'pmapp/base.html' %}
+
+{% block content %}
+<div class="jumbotron-fluid mb-5">
+    <div class="container pt-5">
+        <p class="lead">Artist</p>
+        <h2 class="display-4">アーティスト</h2>
+    </div>
+</div>
+
+<div class="row container mb-5">
+    <div class="card-deck">
+        {% for item in post_list %}
+        <div class="col-md-6">
+            <!-- Card -->
+            <div class="card mb-4">
+                <!-- Card image -->
+                <div class="view overlay e">
+                    <td>
+                        <h2 class="card-title mt-2 font-weight-bold"><i
+                                class="fas fa-guitar ml-3 mr-3"></i>{{ item.artist }}</h2>
+                    </td>
+                </div>
+
+                <!-- Card content -->
+                <div class="card-body">
+                    <!-- Title -->
+                    <h4>{{ item.title }}</h4>
+                    <div class="card-text d-flex flex-row">
+                        <h2 class="badge rounded-pill bg-success ml-3 mt-1 mb-2 display-3"
+                            style="--mdb-text-opacity: .7;">{{ item.author }}</h2>
+                        <span class=" badge rounded-pill bg-info ml-3 mt-1 mb-2" style="--mdb-text-opacity: .7;">
+                            {{ item.category }}
+                        </span>
+                        <span class=" badge rounded-pill bg-danger ml-3 mt-1 mb-2" style="--mdb-text-opacity: .7;">
+                            {{ item.tag }}
+                        </span>
+                        <i class="fas fa-heart ml-4" style="color:pink;"></i>&nbsp{{ item.like_count }}
+                    </div>
+                    <a href="{% url 'pmapp:post_detail' item.id %}" type="button"
+                        class="btn btn-light-blue btn-md">もっと読む</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<a href="{% url 'pmapp:library' %}" class="btn btn-outline-dark mb-5">戻る</a>
+{% endblock %}
